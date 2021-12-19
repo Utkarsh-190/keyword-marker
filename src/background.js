@@ -43,6 +43,20 @@ chrome.runtime.onStartup.addListener(async () => {
   displayIcon(store);
 });
 
+chrome.tabs.onActivated.addListener(async (data) => {
+  const { tabId } = data;
+  if (!tabId) return;
+  const store = await getStore();
+  const state = store.getState();
+  const { account, marker } = state;
+  const toMark = account.keywords && marker.enabled;
+  if (!toMark) return;
+  // reset marker stats:
+  store.dispatch(setStats(false));
+  // pass focus to active tab:
+  chrome.tabs.sendMessage(tabId, { id: "tabFocusPass" });
+});
+
 (async () => {
   const store = await getStore();
   store.subscribe(() => {
