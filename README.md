@@ -1,3 +1,3 @@
-# Pokemon search app
+# Keyword marker
 
-Website to search for Pokemon and related data.
+Chrome extension for keyword marking on website.
